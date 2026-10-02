@@ -1,0 +1,13 @@
+{
+  "name": "arc-wallet",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "admin:setup": "node scripts/setup-admin.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@replit/connectors-sdk": "^0.4.3"
+  }
+}

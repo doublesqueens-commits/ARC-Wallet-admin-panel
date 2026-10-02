@@ -1,0 +1,10 @@
+{
+  "name": "ARC Wallet",
+  "short_name": "ARC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08090d",
+  "theme_color": "#a6f03c",
+  "description": "ARC Wallet live market and asset dashboard",
+  "icons": []
+}

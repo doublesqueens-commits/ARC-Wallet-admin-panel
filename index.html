@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#08090d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <title>ARC Wallet</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="auth-view" id="authView">
+        <div class="auth-copy">
+          <span class="brand-mark">A</span>
+          <p class="eyebrow">ARC WALLET</p>
+          <h1>Move money<br /><em>with intention.</em></h1>
+          <p class="auth-intro">A calmer home for your digital assets, exchanges and everyday money moves.</p>
+          <div class="auth-orbit" aria-hidden="true"><span></span><i></i></div>
+        </div>
+        <div class="auth-panel">
+          <div class="mobile-brand"><span class="brand-mark">A</span><span>ARC</span></div>
+          <p class="panel-kicker">Welcome back</p>
+          <h2>Sign in to your account</h2>
+          <p class="panel-subtitle">Choose a quick sign-in method or use your account details.</p>
+          <div class="social-stack">
+            <button class="social-button" data-provider="Apple"><span class="provider apple">●</span>Sign in with Apple</button>
+            <div id="googleSignInButton" class="google-signin-slot hidden" aria-label="Sign in with Google"></div>
+            <button class="social-button" data-provider="X"><span class="provider x">X</span>Sign in with X</button>
+            <button class="social-button" data-provider="VK"><span class="provider vk">vk</span>Sign in with VK</button>
+          </div>
+          <div class="divider"><span>or continue with email</span></div>
+          <form id="loginForm" onsubmit="window.submitLogin(event); return false;">
+            <label class="field"><span class="field-icon">@</span><input id="email" type="email" placeholder="Email or username" required /></label>
+            <label class="field"><span class="field-icon">•••</span><input id="password" type="password" placeholder="Password" required /><button class="password-toggle" type="button" aria-label="Show password">◉</button></label>
+            <div class="form-options"><label class="remember"><input type="checkbox" /> <span>Remember me</span></label><a href="#" id="forgotLink">Forgotten password?</a></div>
+            <button class="primary-button" type="submit">Sign in <span>↗</span></button>
+          </form>
+          <button class="signup-link" id="openSignup" type="button" onclick="document.getElementById('loginForm').classList.add('hidden'); document.getElementById('openSignup').classList.add('hidden'); document.getElementById('signupForm').classList.remove('hidden'); document.getElementById('authStatus').textContent = '';">Create a new account</button>
+          <form id="signupForm" class="hidden" onsubmit="window.submitSignup(event); return false;">
+            <p class="panel-kicker">Create account</p>
+            <h2>Join ARC Wallet</h2>
+            <p class="panel-subtitle">Use your email and create a secure password.</p>
+            <label class="field"><span class="field-icon">@</span><input id="signupEmail" type="email" placeholder="Email address" required /></label>
+            <label class="field"><span class="field-icon">•••</span><input id="signupPassword" type="password" minlength="8" placeholder="Password (8+ characters)" required /></label>
+            <label class="field"><span class="field-icon">•••</span><input id="signupPasswordConfirm" type="password" minlength="8" placeholder="Confirm password" required /></label>
+            <button class="primary-button" type="submit">Create account <span>↗</span></button>
+            <button class="signup-link" id="backToLogin" type="button" onclick="document.getElementById('signupForm').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('openSignup').classList.remove('hidden');">Back to sign in</button>
+          </form>
+          <form id="verificationForm" class="hidden">
+            <p class="panel-kicker">Verify your account</p>
+            <h2>Enter the 6-digit code</h2>
+            <p class="panel-subtitle" id="verificationMessage">Check your email inbox for the verification code.</p>
+            <label class="field"><span class="field-icon">#</span><input id="verificationCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit code" required /></label>
+            <button class="primary-button" type="submit">Verify and continue <span>↗</span></button>
+          </form>
+          <p class="status-message" id="authStatus" role="status"></p>
+        </div>
+      </section>
+
+      <section class="pending-approval-view hidden" id="pendingApprovalView" aria-labelledby="pendingApprovalTitle">
+        <div class="pending-approval-card">
+          <p class="eyebrow">ARC WALLET</p>
+          <h1 id="pendingApprovalTitle">Account pending review</h1>
+          <p>Your email is verified. An administrator must approve this new registration before you can sign in.</p>
+          <p class="pending-email" id="pendingApprovalEmail"></p>
+          <button class="primary-button" id="pendingBackToLogin" type="button">Return to sign in</button>
+        </div>
+      </section>
+
+      <section class="wallet-view hidden" id="walletView">
+      <header class="wallet-header"><div><p class="eyebrow">ARC WALLET</p><h1>Welcome, Vitaliy <span class="wave" aria-hidden="true">+</span></h1></div><button class="avatar" id="openProfile" aria-label="Profile">V</button></header>
+        <div class="wallet-meta"><button class="address-pill" id="copyAddress">◈ &nbsp; <span id="walletAddress">No deposit address</span></button><button class="network-pill" id="openNetwork">Ethereum Mainnet <span>⌄</span></button><button class="more-button" id="openMore" aria-label="More options">•••</button></div>
+        <aside class="demo-notice" id="providerNotice" role="status"><strong>Deposits paused</strong><span>Deposit addresses and balances appear only after the configured custody API verifies them for your account, asset, and network. Do not send funds to an address not shown here.</span></aside>
+        <section class="balance-card"><div class="balance-top"><span>Custody balance</span><button class="asset-select" id="openAssets">◉ ETH</button></div><strong id="walletBalance"><span id="walletBalanceValue">—</span> <small id="walletBalanceAsset">ETH</small></strong><div class="balance-actions"><button class="secondary-action" id="openReceive">Receive <span>↙</span></button><button class="send-action" id="openSend">Send <span>↗</span></button></div></section>
+        <section class="internal-ledger-card hidden" id="internalLedgerCard"><div class="ledger-card-heading"><strong>Internal adjustment balance</strong><span>Separate from custody</span></div><div class="internal-balances" id="internalBalancesList"></div><p>This balance is maintained by explicit admin adjustments and approved requests. It is not an on-chain custody balance.</p></section>
+        <section class="request-activity hidden" id="walletRequestSection"><div class="section-heading"><h2>Deposit and withdrawal requests</h2></div><div id="walletRequestList"></div></section>
+        <section class="market-section"><div class="section-heading"><div><p class="market-kicker">LIVE MARKET</p><h2>Market prices</h2></div><span class="market-refresh" id="marketUpdated">Updating...</span></div><div class="market-grid" id="marketGrid"></div></section>
+        <div class="section-heading"><h2>Latest exchanges</h2><button id="viewAll">View all <span>→</span></button></div>
+        <section class="exchange-grid" id="exchangeGrid"></section>
+        <nav class="bottom-nav"><button class="nav-item active" data-tab="wallet"><span>▣</span>Wallet</button><button class="nav-item" data-tab="exchange"><span>↻</span>Exchange</button><button class="nav-item" data-tab="settings"><span>☷</span>Settings</button></nav>
+        <button class="exchange-fab" id="openExchange" aria-label="Open exchange">↻</button>
+      </section>
+    </main>
+    <div class="modal-backdrop hidden" id="networkModal" role="dialog" aria-modal="true" aria-labelledby="networkTitle"><div class="network-modal"><button class="close-modal" id="closeNetwork" aria-label="Close network selection">×</button><div class="grabber" aria-hidden="true"></div><p class="modal-kicker">NETWORK</p><h2 id="networkTitle">Select network</h2><div class="network-list" id="networkList"></div><button class="done-button" id="doneNetwork">Done</button><label class="select-all"><input type="checkbox" /> Select all</label></div></div>
+    <div class="modal-backdrop hidden" id="actionModal" role="dialog" aria-modal="true" aria-labelledby="actionTitle"><div class="network-modal"><button class="close-modal" id="closeAction" aria-label="Close dialog">×</button><div class="grabber" aria-hidden="true"></div><p class="modal-kicker" id="actionKicker">ARC WALLET</p><h2 id="actionTitle"></h2><div class="panel-subtitle" id="actionBody"></div><button class="done-button" id="actionButton">Continue</button></div></div>
+    <div class="toast" id="toast"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
